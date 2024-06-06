@@ -4,73 +4,76 @@ using Lab.DataAccess.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-[Route("api/[controller]")]
-[ApiController]
-public class UserController : ControllerBase
+namespace Lab.API.Controllers
 {
-    private readonly IUserService _userService;
-
-    public UserController(IUserService userService)
+    [Route("api/[controller]")]
+    [ApiController]
+    public class UserController : ControllerBase
     {
-        _userService = userService;
-    }
+        private readonly IUserService _userService;
 
-    [HttpPost("authenticate")]
-    public async Task<IActionResult> Authenticate([FromBody] UserLoginModel userObj)
-    {
-        if (userObj == null)
-            return BadRequest();
-
-        try
+        public UserController(IUserService userService)
         {
-            var token = await _userService.Authenticate(userObj);
-            return Ok(token);
+            _userService = userService;
         }
-        catch (Exception ex)
+
+        [HttpPost("authenticate")]
+        public async Task<IActionResult> Authenticate([FromBody] UserLoginModel userObj)
         {
-            return BadRequest(new { Message = ex.Message });
+            if (userObj == null)
+                return BadRequest();
+
+            try
+            {
+                var token = await _userService.Authenticate(userObj);
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Повідомлення = ex.Message });
+            }
         }
-    }
 
-    [HttpPost("register")]
-    public async Task<IActionResult> AddUser([FromBody] UserRegistrationModel userObj)
-    {
-        if (userObj == null)
-            return BadRequest();
-
-        try
+        [HttpPost("register")]
+        public async Task<IActionResult> AddUser([FromBody] UserRegistrationModel userObj)
         {
-            await _userService.AddUser(userObj);
-            return Ok(new { Status = 200, Message = "User Added!" });
+            if (userObj == null)
+                return BadRequest();
+
+            try
+            {
+                await _userService.AddUser(userObj);
+                return Ok(new { Статус = 200, Повідомлення = "Користувача додано!" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Повідомлення = ex.Message });
+            }
         }
-        catch (Exception ex)
+
+        [Authorize]
+        [HttpGet]
+        public async Task<ActionResult<User>> GetAllUsers()
         {
-            return BadRequest(new { Message = ex.Message });
+            var users = await _userService.GetAllUsers();
+            return Ok(users);
         }
-    }
 
-    [Authorize]
-    [HttpGet]
-    public async Task<ActionResult<User>> GetAllUsers()
-    {
-        var users = await _userService.GetAllUsers();
-        return Ok(users);
-    }
-
-    [HttpPost("refresh")]
-    public async Task<IActionResult> Refresh([FromBody] TokenApiModel tokenApiDto)
-    {
-        if (tokenApiDto is null)
-            return BadRequest("Invalid Client Request");
-
-        try
+        [HttpPost("refresh")]
+        public async Task<IActionResult> Refresh([FromBody] TokenApiModel tokenApiDto)
         {
-            var token = await _userService.Refresh(tokenApiDto);
-            return Ok(token);
-        }
-        catch (Exception ex)
-        {
-            return BadRequest(new { Message = ex.Message });
+            if (tokenApiDto is null)
+                return BadRequest("Неправильний запит клієнта");
+
+            try
+            {
+                var token = await _userService.Refresh(tokenApiDto);
+                return Ok(token);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Повідомлення = ex.Message });
+            }
         }
     }
 }

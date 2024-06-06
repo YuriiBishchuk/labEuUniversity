@@ -46,11 +46,11 @@ namespace Lab.Business.Services
                 .FirstOrDefaultAsync(x => x.Email == userObj.Email);
 
             if (user == null)
-                throw new Exception("User not found!");
+                throw new Exception("Користувача не знайдено!");
 
             if (!PasswordHasher.VerifyPassword(userObj.Password, user.Password))
             {
-                throw new Exception("Password is Incorrect");
+                throw new Exception("Невірний пароль");
             }
 
             user.Token = CreateJwt(user);
@@ -73,10 +73,10 @@ namespace Lab.Business.Services
                 throw new ArgumentNullException(nameof(userObj));
 
             if (await _userRepository.GetIQueryable().AnyAsync(x => x.Email == userObj.Email))
-                throw new Exception("Email Already Exist");
+                throw new Exception("Електронна пошта вже існує");
 
             if (await _userRepository.GetIQueryable().AnyAsync(x => x.Username == userObj.Username))
-                throw new Exception("Username Already Exist");
+                throw new Exception("Ім'я користувача вже існує");
 
             var passMessage = CheckPasswordStrength(userObj.Password);
             if (!string.IsNullOrEmpty(passMessage))
@@ -85,7 +85,7 @@ namespace Lab.Business.Services
             var newUser = userObj.Adapt<User>();
 
             newUser.Password = PasswordHasher.HashPassword(userObj.Password);
-            newUser.Role = "User";
+            newUser.Role = "Користувач";
             newUser.Token = "";
             await _userRepository.AddAsync(newUser);
             await _userRepository.SaveChangesAsync();
@@ -108,7 +108,7 @@ namespace Lab.Business.Services
             var user = await _userRepository.GetIQueryable().FirstOrDefaultAsync(u => u.Username == username);
 
             if (user == null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.Now)
-                throw new Exception("Invalid Request");
+                throw new Exception("Недійсний запит");
 
             var newAccessToken = CreateJwt(user);
             var newRefreshToken = CreateRefreshToken();
@@ -126,11 +126,11 @@ namespace Lab.Business.Services
         {
             StringBuilder sb = new StringBuilder();
             if (pass.Length < 9)
-                sb.Append("Minimum password length should be 8" + Environment.NewLine);
+                sb.Append("Мінімальна довжина пароля повинна бути 8" + Environment.NewLine);
             if (!(Regex.IsMatch(pass, "[a-z]") && Regex.IsMatch(pass, "[A-Z]") && Regex.IsMatch(pass, "[0-9]")))
-                sb.Append("Password should be AlphaNumeric" + Environment.NewLine);
+                sb.Append("Пароль повинен містити букви та цифри" + Environment.NewLine);
             if (!Regex.IsMatch(pass, "[<,>,@,!,#,$,%,^,&,*,(,),_,+,\\[,\\],{,},?,:,;,|,',\\,.,/,~,`,-,=]"))
-                sb.Append("Password should contain special charcter" + Environment.NewLine);
+                sb.Append("Пароль повинен містити спеціальні символи" + Environment.NewLine);
             return sb.ToString();
         }
 
@@ -141,7 +141,8 @@ namespace Lab.Business.Services
             var identity = new ClaimsIdentity(new Claim[]
             {
             new Claim(ClaimTypes.Role, user.Role),
-            new Claim(ClaimTypes.Name, $"{user.Username}")
+            new Claim(ClaimTypes.Name, $"{user.Username}"),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             });
 
             var credentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
@@ -188,7 +189,7 @@ namespace Lab.Business.Services
             var principal = tokenHandler.ValidateToken(token, tokenValidationParameters, out securityToken);
             var jwtSecurityToken = securityToken as JwtSecurityToken;
             if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                throw new SecurityTokenException("This is Invalid Token");
+                throw new SecurityTokenException("Некоретний токен");
             return principal;
         }
     }

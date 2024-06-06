@@ -16,7 +16,8 @@ namespace Lab.Business
         public static void RegisterBusinessModule(this IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IToDoService, ToDoService>();
+            services.AddScoped<IUserToDoService, UserToDoService>();
+            services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();
         }
     }
 }
