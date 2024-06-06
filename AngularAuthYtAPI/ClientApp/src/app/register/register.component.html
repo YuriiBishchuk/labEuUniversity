@@ -1,0 +1,31 @@
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-4">
+        <h2>Реєстрація</h2>
+        <form (ngSubmit)="onSubmit()" #registerForm="ngForm">
+          <div class="mb-3">
+            <label for="firstName" class="form-label">Ім'я</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="user.firstName" required>
+          </div>
+          <div class="mb-3">
+            <label for="lastName" class="form-label">Прізвище</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="user.lastName" required>
+          </div>
+          <div class="mb-3">
+            <label for="username" class="form-label">Псевдонім</label>
+            <input type="text" class="form-control" id="username" name="username" [(ngModel)]="user.username" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Пароль</label>
+            <input type="password" class="form-control" id="password" name="password" [(ngModel)]="user.password" required>
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Електронна пошта</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.email" required>
+          </div>
+          <button type="submit" class="my-2 btn btn-primary" [disabled]="!registerForm.form.valid">Зареєструватися</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  
