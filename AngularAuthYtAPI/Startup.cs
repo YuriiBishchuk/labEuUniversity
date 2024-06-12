@@ -50,9 +50,8 @@ namespace Lab.API
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = true;
-           
-                var secretKey = Environment.GetEnvironmentVariable("AZURE_JWT_SECRETKEY")
-                   ?? Configuration["Jwt:SecretKey"];
+
+                var secretKey = Configuration["Jwt:SecretKey"];
                 x.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuerSigningKey = true,
