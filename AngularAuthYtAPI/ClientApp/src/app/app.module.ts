@@ -25,6 +25,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { SnackbarShowInterceptor } from './interceptors/snackbar-show.interceptor';
 import { BoardComponent } from './board/board.component';
 import { CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
+import { JwtInterceptor } from './interceptors/jwt.interceptor';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
   ],
   providers: [
     provideAnimationsAsync(),
-    { provide: HTTP_INTERCEPTORS, useClass: SnackbarShowInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: SnackbarShowInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
