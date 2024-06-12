@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navbar',
@@ -9,11 +10,12 @@ import { AuthService } from '../services/auth.service';
 export class NavbarComponent {
   title = 'Tic Tac Toe';
 
-  constructor(private _authService: AuthService){
+  constructor(private _authService: AuthService,  private router: Router){
     
   }
   public logout(): void {
-    // todo
+     this._authService.logout();
+     this.router.navigate(['../login'])
   }
 
   public get isAuthenticated() {
