@@ -173,7 +173,7 @@ namespace Lab.Business.Services
             var secretKey = Environment.GetEnvironmentVariable("AZURE_JWT_SECRETKEY")
          ?? _configuration["Jwt:SecretKey"];
 
-            return secretKey;
+            return _configuration["Jwt:SecretKey"];
         }
 
         private string CreateRefreshToken()
