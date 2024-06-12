@@ -40,7 +40,7 @@ namespace Lab.API
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.RegisterBusinessModule();
-            //services.RegisterDataAccessModule(Configuration);
+            services.RegisterDataAccessModule(Configuration);
 
             services.AddAuthentication(x =>
             {
@@ -153,7 +153,7 @@ namespace Lab.API
                     spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
-         //   dbContext.Database.Migrate();
+            dbContext.Database.Migrate();
         }
 
         private bool IsDebugging()
