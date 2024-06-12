@@ -1,7 +1,7 @@
 <mat-toolbar color="primary">
   <span>
     <button mat-button routerLink="/">{{ title }}</button>
-    <button mat-button routerLink="/board" *ngIf="isAuthenticated"><mat-icon>Дошка</mat-icon></button>
+    <button mat-button routerLink="/board" *ngIf="isAuthenticated">Дошка</button>
   </span>
   <div>
     <button mat-button routerLink="/login" *ngIf="!isAuthenticated">
