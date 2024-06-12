@@ -50,10 +50,7 @@ namespace Lab.Business.Services
                 throw new ArgumentNullException(nameof(toDo));
             }
 
-            if (toDo.UserId != userId)
-            {
-                throw new Exception("Ви можете створювати тільки завдання для себе.");
-            }
+            toDo.UserId = userId;
 
             await _toDoRepository.AddAsync(toDo);
             await _toDoRepository.SaveChangesAsync();

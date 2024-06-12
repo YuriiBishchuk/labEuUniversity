@@ -2,21 +2,24 @@
     <div class="status-column">
         <h2>Заплановано</h2>
         <div cdkDropList #plannedList="cdkDropList" [cdkDropListData]="plannedTasks" [cdkDropListConnectedTo]="[startedList, finishedList]" class="task-list" (cdkDropListDropped)="drop($event, 'planned')">
-            <div *ngFor="let task of plannedTasks" class="task" cdkDrag>{{ task }}</div>
+            <div *ngFor="let task of plannedTasks" class="task" cdkDrag>{{ task.title }}</div>
+            <div class="add-task" (click)="addTask('planned')">Додати завдання</div>
         </div>
     </div>
 
     <div class="status-column">
         <h2>Розпочато</h2>
         <div cdkDropList #startedList="cdkDropList" [cdkDropListData]="startedTasks" [cdkDropListConnectedTo]="[plannedList, finishedList]" class="task-list" (cdkDropListDropped)="drop($event, 'started')">
-            <div *ngFor="let task of startedTasks" class="task" cdkDrag>{{ task }}</div>
+            <div *ngFor="let task of startedTasks" class="task" cdkDrag>{{ task.title }}</div>
+            <div class="add-task" (click)="addTask('started')">Додати завдання</div>
         </div>
     </div>
 
     <div class="status-column">
         <h2>Завершено</h2>
         <div cdkDropList #finishedList="cdkDropList" [cdkDropListData]="finishedTasks" [cdkDropListConnectedTo]="[plannedList, startedList]" class="task-list" (cdkDropListDropped)="drop($event, 'finished')">
-            <div *ngFor="let task of finishedTasks" class="task" cdkDrag>{{ task }}</div>
+            <div *ngFor="let task of finishedTasks" class="task" cdkDrag>{{ task.title }}</div>
+            <div class="add-task" (click)="addTask('finished')">Додати завдання</div>
         </div>
     </div>
 </div>

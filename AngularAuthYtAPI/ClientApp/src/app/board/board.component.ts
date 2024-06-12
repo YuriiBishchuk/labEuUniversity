@@ -62,4 +62,28 @@ export class BoardComponent implements OnInit {
         return -1;
     }
   }
+
+  addTask(status: string) {
+    const newTask = {
+      title: 'Нове завдання',  // Тут можна додати додаткові властивості для нового завдання
+      state: this.getStateFromString(status)
+    };
+
+    this.todoService.createTask(newTask).subscribe((createdTask: any) => {
+      switch (createdTask.state) {
+        case 0:
+          this.plannedTasks.push(createdTask);
+          break;
+        case 1:
+          this.startedTasks.push(createdTask);
+          break;
+        case 2:
+          this.finishedTasks.push(createdTask);
+          break;
+        default:
+          console.error('Невідомий стан завдання:', createdTask);
+          break;
+      }
+    });
+  }
 }
