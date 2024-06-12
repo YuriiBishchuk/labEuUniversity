@@ -108,41 +108,41 @@ namespace Lab.API
             });
 
             // Middleware для перенаправлення всіх запитів, які не починаються з "/api", до SPA
-            app.Use(async (context, next) =>
-            {
-                if (!context.Request.Path.StartsWithSegments("/api"))
-                {
-                    var filePath = Path.Combine(env.ContentRootPath, "ClientApp", "dist", "client-app", "browser", context.Request.Path.Value.TrimStart('/'));
+            //app.Use(async (context, next) =>
+            //{
+            //    if (!context.Request.Path.StartsWithSegments("/api"))
+            //    {
+            //        var filePath = Path.Combine(env.ContentRootPath, "ClientApp", "dist", "client-app", "browser", context.Request.Path.Value.TrimStart('/'));
 
-                    if (File.Exists(filePath))
-                    {
-                        // Встановлення коректного MIME-типу
-                        var fileExtension = Path.GetExtension(filePath).ToLowerInvariant();
-                        var contentType = fileExtension switch
-                        {
-                            ".js" => "application/javascript",
-                            ".css" => "text/css",
-                            ".html" => "text/html",
-                            ".png" => "image/png",
-                            ".jpg" => "image/jpeg",
-                            ".jpeg" => "image/jpeg",
-                            ".gif" => "image/gif",
-                            ".svg" => "image/svg+xml",
-                            _ => "application/octet-stream",
-                        };
+            //        if (File.Exists(filePath))
+            //        {
+            //            // Встановлення коректного MIME-типу
+            //            var fileExtension = Path.GetExtension(filePath).ToLowerInvariant();
+            //            var contentType = fileExtension switch
+            //            {
+            //                ".js" => "application/javascript",
+            //                ".css" => "text/css",
+            //                ".html" => "text/html",
+            //                ".png" => "image/png",
+            //                ".jpg" => "image/jpeg",
+            //                ".jpeg" => "image/jpeg",
+            //                ".gif" => "image/gif",
+            //                ".svg" => "image/svg+xml",
+            //                _ => "application/octet-stream",
+            //            };
 
-                        context.Response.ContentType = contentType;
-                        await context.Response.SendFileAsync(filePath);
-                        return;
-                    }
-                    else
-                    {
-                        context.Request.Path = "/index.html";
-                    }
-                }
+            //            context.Response.ContentType = contentType;
+            //            await context.Response.SendFileAsync(filePath);
+            //            return;
+            //        }
+            //        else
+            //        {
+            //            context.Request.Path = "/index.html";
+            //        }
+            //    }
 
-                await next();
-            });
+            //    await next();
+            //});
 
             app.UseSpa(spa =>
             {

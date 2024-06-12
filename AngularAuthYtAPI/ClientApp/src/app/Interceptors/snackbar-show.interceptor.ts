@@ -5,7 +5,7 @@ import { catchError, map } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
-export class SnackbarInterceptor implements HttpInterceptor {
+export class SnackbarShowInterceptor implements HttpInterceptor {
 
   constructor(private snackBar: MatSnackBar) {}
 

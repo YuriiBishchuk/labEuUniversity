@@ -22,7 +22,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatMenuModule } from '@angular/material/menu';
-import { SnackbarInterceptor } from './Interceptors/snackbar.interceptor';
+import { SnackbarShowInterceptor } from './interceptors/snackbar-show.interceptor';
 import { BoardComponent } from './board/board.component';
 import { CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
 
@@ -57,7 +57,7 @@ import { CdkDropList, CdkDrag } from '@angular/cdk/drag-drop';
   ],
   providers: [
     provideAnimationsAsync(),
-    { provide: HTTP_INTERCEPTORS, useClass: SnackbarInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: SnackbarShowInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

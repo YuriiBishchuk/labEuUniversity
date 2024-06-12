@@ -39,32 +39,42 @@ namespace Lab.Business.Services
 
         public async Task<TokenApiModel> Authenticate(UserLoginModel userObj)
         {
-            if (userObj == null)
-                throw new ArgumentNullException(nameof(userObj));
-
-            var user = await _userRepository.GetIQueryable()
-                .FirstOrDefaultAsync(x => x.Email == userObj.Email);
-
-            if (user == null)
-                throw new Exception("Користувача не знайдено!");
-
-            if (!PasswordHasher.VerifyPassword(userObj.Password, user.Password))
+            try
             {
-                throw new Exception("Невірний пароль");
+                if (userObj == null)
+                    throw new ArgumentNullException(nameof(userObj));
+
+                var user = await _userRepository.GetIQueryable()
+                    .FirstOrDefaultAsync(x => x.Email == userObj.Email);
+
+                if (user == null)
+                    throw new Exception("Користувача не знайдено!");
+
+                if (!PasswordHasher.VerifyPassword(userObj.Password, user.Password))
+                {
+                    throw new Exception("Невірний пароль");
+                }
+
+                user.Token = CreateJwt(user);
+                var newAccessToken = user.Token;
+                var newRefreshToken = CreateRefreshToken();
+                user.RefreshToken = newRefreshToken;
+                user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(5);
+                await _userRepository.UpdateAsync(user);
+                await _userRepository.SaveChangesAsync();
+
+                return new TokenApiModel()
+                {
+                    AccessToken = newAccessToken,
+                    RefreshToken = newRefreshToken
+                };
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex);
             }
 
-            user.Token = CreateJwt(user);
-            var newAccessToken = user.Token;
-            var newRefreshToken = CreateRefreshToken();
-            user.RefreshToken = newRefreshToken;
-            user.RefreshTokenExpiryTime = DateTime.UtcNow.AddDays(5);
-            await _userRepository.SaveChangesAsync();
-
-            return new TokenApiModel()
-            {
-                AccessToken = newAccessToken,
-                RefreshToken = newRefreshToken
-            };
+            return new TokenApiModel();
+       
         }
 
         public async Task AddUser(UserRegistrationModel userObj)

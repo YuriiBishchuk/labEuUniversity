@@ -3,8 +3,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService } from '../services/user.service';
 import { tap } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +18,7 @@ export class LoginComponent {
   });
 
   constructor(
-    private userService: UserService,
+    private  authService: AuthService,
     private router: Router
   ) { }
 
@@ -26,10 +26,12 @@ export class LoginComponent {
     if (!this.loginForm.valid) {
       return;
     }
-    this.userService.login(this.loginForm.value).pipe(
-      // route to protected/dashboard, if login was successfull
-      tap(() => this.router.navigate(['../../protected/dashboard']))
-    ).subscribe();
+    this.authService.login(this.loginForm.value).pipe(
+
+      tap(() => this.router.navigate(['../board']))
+    ).subscribe(x=> {
+      
+    });
   }
 
 }

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { UserService } from '../services/user.service';
 import { UserRegistration } from '../models/user-registration.model';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from '../helpers/custom-validator';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -24,14 +24,14 @@ export class RegisterComponent {
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private authService: AuthService
   ) { }
 
   register() {
     if (!this.registerForm.valid) {
       return;
     }
-    this.userService.register(this.registerForm.value as unknown as UserRegistration).pipe(
+    this.authService.register(this.registerForm.value as unknown as UserRegistration).pipe(
       // If registration was successfull, then navigate to login route
       tap(() => this.router.navigate(['../login']))
     ).subscribe();

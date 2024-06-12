@@ -18,10 +18,10 @@ namespace Lab.DataAccess.Configurations
             builder.Property(u => u.LastName).HasMaxLength(100);
             builder.Property(u => u.Username).HasMaxLength(100);
             builder.Property(u => u.Password).HasMaxLength(100);
-            builder.Property(u => u.Token).HasMaxLength(200);
+            builder.Property(u => u.Token).HasMaxLength(400);
             builder.Property(u => u.Role).HasMaxLength(50);
             builder.Property(u => u.Email).HasMaxLength(100);
-            builder.Property(u => u.RefreshToken).HasMaxLength(200);
+            builder.Property(u => u.RefreshToken).HasMaxLength(400);
             builder.Property(u => u.RefreshTokenExpiryTime).IsRequired();
             builder.HasMany(u => u.ToDos)
                    .WithOne(t => t.User)
