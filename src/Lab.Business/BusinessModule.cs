@@ -15,6 +15,8 @@ namespace Lab.Business
     {
         public static void RegisterBusinessModule(this IServiceCollection services)
         {
+            services.AddHttpContextAccessor();
+
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserToDoService, UserToDoService>();
             services.AddScoped<IAuthenticatedUserService, AuthenticatedUserService>();

@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lab.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240605234827_InitialCreate")]
+    [Migration("20240612211805_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,6 +36,9 @@ namespace Lab.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
+
+                    b.Property<int>("Index")
+                        .HasColumnType("integer");
 
                     b.Property<int>("State")
                         .HasColumnType("integer");

@@ -157,7 +157,14 @@ namespace Lab.Business.Services
             return jwtTokenHandler.WriteToken(token);
         }
 
-        public string GetJwtSecretKey() => _configuration["Jwt:SecretKey"];
+        public string GetJwtSecretKey()
+        {
+
+            var secretKey = Environment.GetEnvironmentVariable("AZURE_JWT_SECRETKEY")
+         ?? _configuration["Jwt:SecretKey"];
+
+            return secretKey;
+        }
 
         private string CreateRefreshToken()
         {

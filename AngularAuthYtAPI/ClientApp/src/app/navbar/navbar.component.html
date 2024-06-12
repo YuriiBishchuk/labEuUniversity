@@ -1,22 +1,16 @@
-<nav class="px-2 navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">MyApp</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
+<mat-toolbar color="primary">
+  <span>
+    <button mat-button routerLink="/">{{title}}</button>
+    <button mat-button routerLink="/"><mat-icon>home</mat-icon></button>
+  </span>
+  <div>
+    <button mat-button routerLink="/login" *ngIf="!isAuthenticated">
+      <mat-icon>power_settings_new</mat-icon>
+      Login
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/">Головна</a>
-        </li>
-      </ul>
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/login">Вхід</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/register">Реєстрація</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  
+    <button mat-button *ngIf="isAuthenticated" (click)="logout()">
+      <mat-icon>exit_to_app</mat-icon>
+      Logout
+    </button>
+  </div>
+</mat-toolbar>

@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-
+  title = 'Tic Tac Toe';
+  public isAuthenticated = false;
+  
+  public logout(): void {
+    // todo
+  }
 }

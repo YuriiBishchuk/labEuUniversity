@@ -14,8 +14,11 @@ namespace Lab.DataAccess
     {
         public static void RegisterDataAccessModule(this IServiceCollection services, IConfiguration configuration)
         {
+            var connectionString = Environment.GetEnvironmentVariable("AZURE_POSTGRESQL_CONNECTIONSTRING")
+                          ?? configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<AppDbContext>(options =>
-          options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+           
+            options.UseNpgsql(connectionString));
 
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IToDoRepository, ToDoRepository>();

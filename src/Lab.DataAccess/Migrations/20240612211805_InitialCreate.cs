@@ -40,7 +40,8 @@ namespace Lab.DataAccess.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Title = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    State = table.Column<int>(type: "integer", nullable: false)
+                    State = table.Column<int>(type: "integer", nullable: false),
+                    Index = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {

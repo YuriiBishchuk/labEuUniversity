@@ -30,7 +30,7 @@ namespace Lab.API.Controllers
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Повідомлення = ex.Message });
+                return BadRequest(new { Message = ex.Message });
             }
         }
 
@@ -43,11 +43,11 @@ namespace Lab.API.Controllers
             try
             {
                 await _userService.AddUser(userObj);
-                return Ok(new { Статус = 200, Повідомлення = "Користувача додано!" });
+                return Ok(new { Message = "Користувача додано!" });
             }
             catch (Exception ex)
             {
-                return BadRequest(new { Повідомлення = ex.Message });
+                return BadRequest(new { Message = ex.Message });
             }
         }
 
@@ -71,8 +71,8 @@ namespace Lab.API.Controllers
                 return Ok(token);
             }
             catch (Exception ex)
-            {
-                return BadRequest(new { Повідомлення = ex.Message });
+            {       
+                return BadRequest(new { Message = ex.Message });
             }
         }
     }
