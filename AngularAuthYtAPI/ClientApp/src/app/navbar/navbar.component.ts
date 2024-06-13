@@ -8,7 +8,6 @@ import { Router } from '@angular/router';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  title = 'Tic Tac Toe';
 
   constructor(private _authService: AuthService,  private router: Router){
     
