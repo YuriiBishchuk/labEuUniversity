@@ -43,4 +43,26 @@
     .task:last-child {
         border-bottom: none;
     }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 8px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .add-task {
+        padding: 10px;
+        margin: 10px 0;
+        background-color: #e0e0e0;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 4px;
+    }
+
+    .add-task:hover {
+        background-color: #d0d0d0;
+    }
 }
