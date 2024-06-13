@@ -66,7 +66,8 @@ export class BoardComponent implements OnInit {
   addTask(status: string) {
     const newTask = {
       title: 'Нове завдання',  // Тут можна додати додаткові властивості для нового завдання
-      state: this.getStateFromString(status)
+      state: this.getStateFromString(status),
+      Description: ""
     };
 
     this.todoService.createTask(newTask).subscribe((createdTask: any) => {
