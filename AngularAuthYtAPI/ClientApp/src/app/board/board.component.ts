@@ -11,6 +11,7 @@ export class BoardComponent implements OnInit {
   plannedTasks: any[] = [];
   startedTasks: any[] = [];
   finishedTasks: any[] = [];
+  newTaskTitle: string = '';
 
   constructor(private todoService: TodoService) {}
 
@@ -20,15 +21,9 @@ export class BoardComponent implements OnInit {
 
   loadTasks() {
     this.todoService.getAllTasks().subscribe((tasks: any[]) => {
-      tasks.forEach(task => {
-        if (task.state === 0) {
-          this.plannedTasks.push(task);
-        } else if (task.state === 1) {
-          this.startedTasks.push(task);
-        } else if (task.state === 2) {
-          this.finishedTasks.push(task);
-        }
-      });
+      this.plannedTasks = tasks.filter(task => task.state === 0);
+      this.startedTasks = tasks.filter(task => task.state === 1);
+      this.finishedTasks = tasks.filter(task => task.state === 2);
     });
   }
 
@@ -65,26 +60,29 @@ export class BoardComponent implements OnInit {
 
   addTask(status: string) {
     const newTask = {
-      title: 'Нове завдання',  // Тут можна додати додаткові властивості для нового завдання
+      title: this.newTaskTitle || 'Нове завдання',
       state: this.getStateFromString(status),
-      Description: ""
+      description: '',
+      userId: 1, // Приклад ID користувача
+      index: this.getNextIndex(status)
     };
 
-    this.todoService.createTask(newTask).subscribe((createdTask: any) => {
-      switch (createdTask.state) {
-        case 0:
-          this.plannedTasks.push(createdTask);
-          break;
-        case 1:
-          this.startedTasks.push(createdTask);
-          break;
-        case 2:
-          this.finishedTasks.push(createdTask);
-          break;
-        default:
-          console.error('Невідомий стан завдання:', createdTask);
-          break;
-      }
+    this.todoService.createTask(newTask).subscribe(() => {
+      this.newTaskTitle = ''; // Скидаємо поле для введення назви
+      this.loadTasks(); // Оновлюємо список завдань
     });
+  }
+
+  private getNextIndex(status: string): number {
+    switch (status) {
+      case 'planned':
+        return this.plannedTasks.length;
+      case 'started':
+        return this.startedTasks.length;
+      case 'finished':
+        return this.finishedTasks.length;
+      default:
+        return 0;
+    }
   }
 }
