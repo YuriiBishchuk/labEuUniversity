@@ -21,6 +21,6 @@ namespace Lab.DataAccess.Entities
         public ToDoState State { get; set; }
 
         public int Index { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
     }
 }
